@@ -1,0 +1,8 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Avaliacao_FBSS
+/Avaliacao_FBSS/bin
+/Avaliacao_FBSS/obj/Debug
+/packages
