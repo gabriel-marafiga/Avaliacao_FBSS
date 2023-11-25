@@ -41,7 +41,7 @@ namespace Avaliacao_FBSS.DAL
 
         public void Insert(Medico obj)
         {
-            Contexto.ExecutarQuery(string.Format("INSERT INTO medicos (cpf, nome,   crm,id_especialidade) VALUES({0}, {1}, '{2}', '{3}')",obj.cpf, obj.nome, obj.crm, obj.id_especialidade));
+            Contexto.ExecutarQuery(string.Format("INSERT INTO medicos (cpf, nome,   crm,id_especialidade) VALUES({0}, '{1}', '{2}', {3})",obj.cpf, obj.nome, obj.crm, obj.id_especialidade));
         }
 
         public void Update<k>(k id, Medico obj)

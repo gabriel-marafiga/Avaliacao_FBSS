@@ -7,9 +7,6 @@
         <div class="container">
             <div class="">
                 <div class="row">
-                    <div class="col-lg-8">
-                        <h6>@ViewBag.Title</h6>
-                    </div>
                     <div class="col-4">
                         <button class="btn btn-sm btn-outline-success novoMedico">Novo Medico</button>
                     </div>
@@ -34,15 +31,13 @@
                     <h6 class="modal-title"></h6>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" class="form-control form-control-sm cpf" />
-                    @Html.Hidden("cpf", Request["cpf"]);
+                    @Html.Hidden("_cpf")
                     <div class="form-group">
                         <label>CPF</label>
-                        
-                        <input type="text"  class="form-control form-control-sm nome"/>
+                        <input type="text" id="CPF" class="form-control form-control-sm CPF"/>
                         <span class="text-danger erroNome d-none"></span>
                     </div>
-                    s
+                    
                     
                     <div class="form-group">
                         <label>Nome</label>
@@ -51,22 +46,26 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Idade</label>
-                        <input type="number" class="form-control form-control-sm crm" />
-                        <span class="text-danger erroIdade d-none">Digite um número</span>
+                        <label>CRM</label>
+                        <input type="text" class="form-control form-control-sm CRM" />
+                        <span class="text-danger erroIdade d-none">CRM</span>
                     </div>
 
                     <div class="form-group">
-                        <label>Profissão</label>
-                        <input type="text" class="form-control form-control-sm profissao" />
-                        <span class="text-danger erroProfissao d-none">Digite uma profissão</span>
+                        <label>Especialidade:</label>
+                        @*<input type="text" class="form-control form-control-sm profissao" />*@
+                        <select id="SelecaoEspecialidade">
+                            
+
+                        </select>
+                        @*<span class="text-danger erroProfissao d-none">Digite uma profissão</span>*@
                     </div>
                 </div>
 
                 <div class="modal-footer">
                     <div class="form-group">
                         <input type="button" value="Salvar" class="btn btn-sm btn-outline-success btnSalvar" />
-                        <input type="button" value="Cancelar" class="btn btn-sm btn-light" data-bs-dismiss="modal" />
+                        <input type="button" value="Cancelar" class="btn btn-sm btn-light" data-dismiss="modal" />
                     </div>
                 </div>
 

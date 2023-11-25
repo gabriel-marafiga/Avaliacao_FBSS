@@ -1,27 +1,93 @@
 ﻿$(document).ready(function () {
-        LoadAll()
-})
+    LoadAll();
+});
 
-$(".novoMedico").click(function () {
-    fetch("Especialidade/ListALL")
-        .then((especialidade) => {
-            const json = especialidade.json();
-            mostrarMedicoModal("Novo Medico");
-        });
-})
 
-$('.modal').on('shown.bs.modal', function () {
-    $('.nome').trigger('focus')
-})
+
+$(".novoMedico").click(() => {
+    limparModal()
+    BuscaEPopulaEspecialidade();
+    mostrarMedicoModal("Novo Medico");
+});
+
+function BuscaEPopulaEspecialidade () {
+        var select = document.getElementById("SelecaoEspecialidade");
+        fetch("Especialidade/ListAll")
+            .then((especialidade) => especialidade.json())
+            .then(populaSelecionarEspecialidade);
+    
+}
+
+$(".btnSalvar").click(function () {
+    let especialidade_selecionada = document.getElementById("SelecaoEspecialidade").value
+
+    if (especialidade_selecionada == 0) {
+        alert("Selecione uma especialide")
+    }
+
+    var medico = {
+        CPF: $('.CPF').val(),
+        nome: $('.nome').val(),
+        CRM: $('.CRM').val(),
+        id_especialidade: parseInt(especialidade_selecionada)
+    };
+
+    console.log($('._cpf').val())
+
+    if ($('.CPF').val() )
+    fetch("Medicos/Includ",
+        {
+            method: "POST",
+            body: JSON.stringify(medico),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        .then((response) => { 
+            if (response.ok) {
+                LoadAll();
+                $("[data-dismiss=modal]").trigger({ type: "click" });
+            }
+        })
+});
+
+function pegarMedicoPelocpf(cpf) {
+    fetch("Medicos/List?cpf=" + cpf)
+        .then((medico) => (medico.json())
+            .then((medico) => {
+                BuscaEPopulaEspecialidade();
+                
+                PopulaModal(medico);
+                mostrarMedicoModal("Editando " + medico.nome);
+            })
+        )
+}
 
 function LoadAll() {
     fetch("Medicos/ListAll")
         .then((medicos) => medicos.json())
         .then(popular);
-    }
+}
 
+function populaSelecionarEspecialidade(especialidades) {
+    var select = document.getElementById("SelecaoEspecialidade");
+    select.innerHTML = ''
+    var el = document.createElement("option");
+    el.textContent = "Selecionar";
+    el.value = 0;
+    select.appendChild(el);
+
+    for (var i = 0; i < especialidades.length; i++) {
+        var opt = especialidades[i];
+        var el = document.createElement("option");
+        el.textContent = opt.Descricao;
+        el.value = opt.Id;
+        select.appendChild(el);
+    }
+}
 
 function popular(medicos) {
+    console.log(medicos)
     var indice = 0;
     var divTabela = document.getElementById("divTabela");
     var tabela = '<table class="table table-sm table-hover table-striped tabela">';
@@ -34,8 +100,6 @@ function popular(medicos) {
     tabela += '</tr>';
     tabela += '</thead>';
     tabela += '<tbody>';
-
-    console.log(medicos)
 
     for (indice = 0; indice < medicos.length; indice++) {
         tabela += `<tr id="${medicos[indice].nome}">`;
@@ -54,18 +118,11 @@ function popular(medicos) {
 }
 
 
-function pegarMedicoPelocpf(cpf) {
-    fetch("Medicos/List?cpf=" + cpf)
-        .then((medicos) => {
-            const json = medicos.json()
-            
-        });        
-}
 
 function excluirMedico(cpf) {
     fetch("Medicos/Delete?cpf=" + cpf)
         .then((response) => {
-            if (response.ok) 
+            if (response.ok)
                 LoadAll();
             else
                 alert(Response.json().mensagem)
@@ -74,11 +131,28 @@ function excluirMedico(cpf) {
 }
 
 function mostrarMedicoModal(texto) {
+    
     if (texto != null) {
-        //document.getElementByClass("modal-title").innerHTML = "<h6 class=\"modal-title\">"+texto+"</h6>";
         $(".modal-title").text(texto);
     }
-
     var myModal = new bootstrap.Modal(document.getElementById("modal"), {});
     myModal.show();
+}
+
+function limparModal() {
+    $("._cpf").val('');
+    $(".CPF").val('');
+    $(".nome").val('');
+    $(".CRM").val('');
+}
+
+function PopulaModal(json_medico) {
+    limparModal();
+    console.log(json_medico);
+    $("_cpf").val(json_medico.cpf);
+    $(".CPF").val(json_medico.cpf);
+    $(".nome").val(json_medico.nome);
+    $(".CRM").val(json_medico.crm);
+ 
+    document.getElementById("SelecaoEspecialidade").value = json_medico.id_especialidade
 }

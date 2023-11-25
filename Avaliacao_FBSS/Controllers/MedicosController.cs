@@ -36,7 +36,8 @@ namespace Avaliacao_FBSS.Controllers
         }
 
         [HttpPut]
-        public ActionResult Update(Medico medico)
+        [Route("Medicos/Update/{cpf}")]
+        public ActionResult Update(string cpf,Medico medico)
         {
             MedicoDAL.Instance.Update(medico.cpf, medico);
             return Json(medico);
