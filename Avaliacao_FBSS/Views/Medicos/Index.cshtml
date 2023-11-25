@@ -26,17 +26,24 @@
     </div>
 
 
-
-
-<div id="modal" class="modal fade" role="dialog">
+    <div id="modal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
+
                 <div class="modal-header">
                     <h6 class="modal-title"></h6>
                 </div>
-
                 <div class="modal-body">
-                    <input type="hidden" class="form-control form-control-sm pessoaId" />
+                    <input type="hidden" class="form-control form-control-sm cpf" />
+                    @Html.Hidden("cpf", Request["cpf"]);
+                    <div class="form-group">
+                        <label>CPF</label>
+                        
+                        <input type="text"  class="form-control form-control-sm nome"/>
+                        <span class="text-danger erroNome d-none"></span>
+                    </div>
+                    s
+                    
                     <div class="form-group">
                         <label>Nome</label>
                         <input type="text" class="form-control form-control-sm nome" />
@@ -45,7 +52,7 @@
 
                     <div class="form-group">
                         <label>Idade</label>
-                        <input type="number" class="form-control form-control-sm idade" />
+                        <input type="number" class="form-control form-control-sm crm" />
                         <span class="text-danger erroIdade d-none">Digite um número</span>
                     </div>
 
@@ -62,7 +69,8 @@
                         <input type="button" value="Cancelar" class="btn btn-sm btn-light" data-bs-dismiss="modal" />
                     </div>
                 </div>
+
             </div>
         </div>
-
     </div>
+</div>

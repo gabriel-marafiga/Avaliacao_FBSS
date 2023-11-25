@@ -2,6 +2,17 @@
         LoadAll()
 })
 
+$(".novoMedico").click(function () {
+    fetch("Especialidade/ListALL")
+        .then((especialidade) => {
+            const json = especialidade.json();
+            mostrarMedicoModal("Novo Medico");
+        });
+})
+
+$('.modal').on('shown.bs.modal', function () {
+    $('.nome').trigger('focus')
+})
 
 function LoadAll() {
     fetch("Medicos/ListAll")
@@ -42,6 +53,7 @@ function popular(medicos) {
     divTabela.innerHTML = tabela;
 }
 
+
 function pegarMedicoPelocpf(cpf) {
     fetch("Medicos/List?cpf=" + cpf)
         .then((medicos) => {
@@ -61,3 +73,12 @@ function excluirMedico(cpf) {
 
 }
 
+function mostrarMedicoModal(texto) {
+    if (texto != null) {
+        //document.getElementByClass("modal-title").innerHTML = "<h6 class=\"modal-title\">"+texto+"</h6>";
+        $(".modal-title").text(texto);
+    }
+
+    var myModal = new bootstrap.Modal(document.getElementById("modal"), {});
+    myModal.show();
+}
